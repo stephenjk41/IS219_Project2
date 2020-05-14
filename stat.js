@@ -49,5 +49,38 @@ module.exports = {
     })
 
     return res
+  },
+  variance (arr) {
+    let mean_calc = this.mean(arr);
+    return this.mean(arr.map(function(num) {
+      return ops.square(num - mean_calc)
+    }));
+  },
+  standard_dev (arr) {
+    let variance = this.variance(arr);
+    return ops.sqrt(variance);
+  },
+  quartile (arr,q ) {
+    arr = this.arr_sort(arr);
+    var pos = ((arr.length) - 1) * q;
+    var base = Math.floor(pos);
+    var rest = pos - base;
+    if( (arr[base+1 !== undefined]) ) {
+      return arr[base] + rest * (arr[base+1] - arr[base]);
+    } else {
+      return arr[base]
+    }
+  },
+  lower_quart(arr) {
+    return this.quartile(arr, 0.25);
+  },
+  upper_quart(arr) {
+    return this.quartile(arr, 0.75);
+  },
+  arr_sort (arr) {
+    return arr.sort(function(a, b) {
+      return a - b;
+    })
   }
 }
+
